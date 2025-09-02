@@ -21,11 +21,18 @@ export class LoginComponent {
   //lifecyclehooks
   onSubmit(form: NgForm){
    const {username,password}=form.value;
+   const storeduser=localStorage.getItem(username);
+   if(storeduser){
+    const user=JSON.parse(storeduser)
    if (username && password){
     localStorage.setItem('token','dummy_token');
     this.snack.open("Success","close")
+    this.router.navigate(['/products'])
    }else {
     this.snack.open("Enter valid credentials","close")
+   }}
+   else{
+this.snack.open("user not found","close")
    }
-  }
-}
+  }}
+

@@ -20,7 +20,11 @@ export class SignUpComponent {
 constructor(private snack:MatSnackBar,private router:Router){}
 //functions
   onSubmit(form: NgForm){
+    if(form.valid){
+      const userData=form.value;
+      localStorage.setItem(userData.username,JSON.stringify(userData));
     this.snack.open("Successfully registered","close")
     this.router.navigate(["/login"])
   }
+}
 }

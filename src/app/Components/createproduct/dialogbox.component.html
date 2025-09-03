@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Create Product</h2>
+<mat-dialog-content>
+    <form #productform="ngForm">
+    <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="product.name" name="full"  required minlength="4" >
+    </mat-form-field>
+   <mat-form-field>
+  <mat-label>Select Category</mat-label>
+  <mat-select [(ngModel)]="product.category">
+    @for (category of categories; track category) {
+      <mat-option [value]="category">{{category}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+<!-- <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Category</mat-label>
+        <input matInput [(ngModel)]="product.category" name="categoryfirst" required minlength="4" #category="ngModel">
+    </mat-form-field> -->
+    <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Price</mat-label>
+        <input matInput type="number" [(ngModel)]="product.price" name="firstprice" required minlength="3">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Discount (%)</mat-label>
+        <input matInput type="number" [(ngModel)]="product.discount" name="give" required minlength="2" >
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-full">
+        <mat-label>In Stock</mat-label>
+        <input matInput type="number" [(ngModel)]="product.instock" name="stock" required minlength="1" >
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Image  1 URL</mat-label>
+        <input matInput [(ngModel)]="product.imageUrl" name="url" >
+    </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-raised-button color="primary"  [disabled]="!productform.valid" (click)="save()">Save</button>
+</mat-dialog-actions>

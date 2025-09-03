@@ -1,18 +1,18 @@
-@for (item of cartItem ; track $index; let i=$index) {
+@for (item of filterDetails ; track item.name) {
 <mat-card class="card">
     <mat-card-header>
         <mat-card-title>Name:{{ item.name}}</mat-card-title>
-        <!-- <mat-card-subtitle> </mat-card-subtitle> -->
+
     </mat-card-header>
     <mat-card-content>
         <img src="{{item.imageUrl}}">
+        <img src="{{item.imageUrl1}}">
         <p>Category:{{item.category}}</p>
         <p>Price:{{item.price}}</p>
         <p>Discount:{{item.discount}}</p>
-        <button (click)="remove(i)">Remove</button>
-        <button (click)="decrement(item)" mat-raised-button>-</button>
-        <p>{{item.quantity}}</p>
-        <button (click)="increment(item)" mat-raised-button>+</button>
+        <p>In Stock:{{item.instock}}</p>
+        <button mat-button (click)=" addToCart(item)">Add to Cart</button>
+
     </mat-card-content>
 </mat-card>
 }

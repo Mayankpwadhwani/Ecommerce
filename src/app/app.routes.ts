@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { SignUpComponent } from './Components/sign-up/sign-up.component';
-import { LoginComponent } from './Components/login/login.component';
-import { ProductDashboardComponent } from './Components/product-dashboard/product-dashboard.component';
-import { authGuard } from './Core/auth.guard';
-import { ProductDetailsComponent } from './Components/product-details/product-details.component';
-import { CartComponent } from './Components/cart/cart.component';
+import { SignUpComponent } from './components/authentication/sign-up/sign-up.component';
+import { LoginComponent } from './components/authentication/login/login.component';
+import { ProductDashboardComponent } from './components/products/product-dashboard/product-dashboard.component';
+import { authGuard } from './core/auth.guard';
+import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
+import { CartComponent } from './components/cart/cart.component';
 
 export const routes: Routes = [
 { path:'signup',component:SignUpComponent },

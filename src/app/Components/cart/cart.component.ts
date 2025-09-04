@@ -2,34 +2,37 @@ import { Component, OnInit } from '@angular/core';
 import { ProductModel } from '../../core/interfaces/product';
 import { CartService } from '../../core/services/cart.service';
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-cart',
-  imports: [MatCardModule],
+  imports: [MatCardModule,MatButtonModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
 export class CartComponent implements OnInit {
-  cartItem: ProductModel[] = []
+  cartItem: ProductModel[] = [];
+
   constructor(private cartservice: CartService) { }
 
   ngOnInit() {
     this.cartservice.cart$.subscribe(item => {
       this.cartItem = item;
+      console.log(item)
     })
   }
 
-  remove(index: number) {
-    this.cartservice.removeCart(index)
+  public remove(index: number) {
+    this.cartservice.removeCartItems(index)
   }
 
-  increment(item: ProductModel) {
+  public increment(item: ProductModel) {
     if (item.quantity < item.instock) {
-      item.quantity++
+      item.quantity++;
     }
   }
 
-  decrement(item: ProductModel) {
+  public decrement(item: ProductModel) {
     if (item.quantity > 0) {
       item.quantity--
     }

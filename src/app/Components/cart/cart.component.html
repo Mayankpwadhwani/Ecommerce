@@ -2,17 +2,17 @@
 <mat-card class="card">
     <mat-card-header>
         <mat-card-title>Name:{{ item.name}}</mat-card-title>
-        <!-- <mat-card-subtitle> </mat-card-subtitle> -->
     </mat-card-header>
     <mat-card-content>
         <img src="{{item.imageUrl}}">
-        <p>Category:{{item.category}}</p>
+        <p>Category:{{item.category.name}}</p>
         <p>Price:{{item.price}}</p>
         <p>Discount:{{item.discount}}</p>
-        <button (click)="remove(i)">Remove</button>
-        <button (click)="decrement(item)" mat-raised-button>-</button>
+        <button (click)="remove(i)" mat-button>Remove</button>
+        <button (click)="decrement(item)" mat-button>-</button>
         <p>{{item.quantity}}</p>
-        <button (click)="increment(item)" mat-raised-button>+</button>
+        <button (click)="increment(item)" mat-button>+</button>
+        <button mat-button>submit</button>
     </mat-card-content>
 </mat-card>
 }

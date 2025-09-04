@@ -6,21 +6,21 @@ import { FormsModule } from '@angular/forms';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { category } from '../../core/interfaces/category';
 import { MatSelectModule } from '@angular/material/select';
 import { ProductsService } from '../../core/services/products.service';
 @Component({
-  selector: 'app-dialogbox',
+  selector: 'app-create-product',
   imports: [FormsModule, MatDialogActions, MatLabel,
     MatFormField, MatDialogModule, MatInput, MatButtonModule, MatSelectModule],
-  templateUrl: './dialogbox.component.html',
-  styleUrl: './dialogbox.component.scss'
+  templateUrl: './create-product.component.html',
+  styleUrl: './create-product.component.scss'
 })
-export class DialogboxComponent implements OnInit{
+export class CreateProductComponent implements OnInit{
 
   product: ProductModel = {
+    id:0,
     name: '',
-    category: '',
+    category: {id:0,name:''},
     price: 0,
     discount: 0,
     instock: 0,
@@ -31,13 +31,14 @@ export class DialogboxComponent implements OnInit{
     categories: string[] = []
   
   
-  constructor( private service:ProductsService,public dialogRef: MatDialogRef<DialogboxComponent>) { }
+  constructor( private service:ProductsService,public dialogRef: MatDialogRef<CreateProductComponent>) { }
 
 
    ngOnInit(): void {
      const products=this.service.getProducts();
-     this.categories=[...new Set(products.map(p=>p.category))]
+     this.categories=[...new Set(products.map(p=>p.category.name))]
    }
+
   save() {
     this.dialogRef.close(this.product);
     console.log(this.product.imageUrl)

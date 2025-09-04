@@ -1,14 +1,13 @@
-<mat-toolbar>   
-<span>MedPlus</span>
-<a mat-button class="home" routerLink="/home">Home</a>
-<a mat-button routerLink="/products">Products</a>
-@if(!isLoggedIn){
-<a mat-button routerLink="/login">SignIn</a>
-} 
-@else{
+<mat-toolbar>
+    <span>MedPlus</span>
+    <a mat-button class="home" routerLink="/home">Home</a>
+    <a mat-button routerLink="/products">Products</a>
+    @if(!isLoggedIn){
+    <a mat-button routerLink="/login">SignIn</a>
+    }
+    @else{
     <button mat-button routerLink="/cart">🛒</button>
     <button mat-button (click)="logOut()">Logout</button>
-   
-}
+    <button mat-button routerLink="/history">History</button>
+    }
 </mat-toolbar>
-

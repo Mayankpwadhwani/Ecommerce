@@ -1,4 +1,4 @@
-export interface category {
-  value: string;
-  viewValue: string;
+export interface Category{
+    id:number,
+    name:string
 }

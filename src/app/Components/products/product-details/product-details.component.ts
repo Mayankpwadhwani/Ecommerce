@@ -12,6 +12,7 @@ import { CartService } from '../../../core/services/cart.service';
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'
 })
+
 export class ProductDetailsComponent implements OnInit {
   displayData: ProductModel[] = []
   filterDetails: ProductModel[] = []
@@ -21,21 +22,9 @@ export class ProductDetailsComponent implements OnInit {
     const name = String(this.route.snapshot.paramMap.get('name'));
     this.displayData = this.service.getProducts();
     this.filterDetails = this.displayData.filter(d => d.name === name);
-
   }
 
-  increment(item: ProductModel) {
-    if (item.quantity < item.instock) {
-      item.quantity++
-    }
-  }
-  decrement(item: ProductModel) {
-    if (item.quantity > 0) {
-      item.quantity--
-    }
-  }
-
-  addToCart(item: ProductModel) {
+  public addToCart(item: ProductModel):void{
     this.cartservice.addToCart(item);
   }
 }

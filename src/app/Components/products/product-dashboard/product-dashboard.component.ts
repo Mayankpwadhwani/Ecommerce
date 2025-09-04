@@ -8,16 +8,17 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { DialogboxComponent } from '../../createproduct/dialogbox.component';
 import { MatDialog } from '@angular/material/dialog';
-import { category } from '../../../core/interfaces/category';
-import { MatLabel, MatSelectModule } from '@angular/material/select';
-import { MatTabLabel } from '@angular/material/tabs';
+import { MatSelectModule } from '@angular/material/select';
+import { CreateProductComponent } from '../../create-product/create-product.component';
+import { Category } from '../../../core/interfaces/category';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-product-dashboard',
-  imports: [CommonModule, MatTableModule, FormsModule,
-    MatPaginatorModule, MatButtonModule, RouterModule, MatIconModule, MatSelectModule],
+  imports: [CommonModule, MatTableModule, FormsModule,MatFormFieldModule,
+    MatPaginatorModule, MatButtonModule, RouterModule, MatIconModule, MatSelectModule,MatInputModule],
   templateUrl: './product-dashboard.component.html',
   styleUrl: './product-dashboard.component.scss'
 })
@@ -28,13 +29,14 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
   displayData: ProductModel[] = []
   filteredproducts: ProductModel[] = []
   
-  categories: category[] = [
-      {value: 'All', viewValue: 'All'},
-      {value: 'Painkiller', viewValue: 'Painkiller'},
-      {value: 'Anticancer', viewValue: 'Anticancer'},
-      {value: 'Capsules', viewValue: 'Capsules'},
-      {value: 'NervePain', viewValue: 'NervePain'},
-      {value: 'Digestion', viewValue: 'Digestion'},
+  categories:Category[] = [
+      {id:0,  name: 'All'},
+      {id:1,  name: 'Painkiller'},
+      {id:2,  name: 'Injection'},
+      {id:3,  name: 'Anticancer'},
+      {id:4,  name: 'Capsules'},
+      {id:5,  name: 'NervePain'},
+      {id:6,  name: 'Digestion'},
     ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -51,28 +53,24 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
     this.datasource.paginator = this.paginator
   }
 
-  loadProducts() {
+  public loadProducts():void {
     this.datasource.data = this.service.getProducts();
   }
 
-  onSearch() {
+   public onSearchProducts():void{
     if (!this.search.trim()) {
       this.datasource.data = this.displayData;
     }
     else {
-      console.log(this.search);
       this.datasource.data = this.service.getProducts().filter(item =>
         item.name.toLowerCase().includes(this.search.toLowerCase())
-      );
-      this.datasource.data = this.service.getProducts().filter(item =>
-        item.category.toLowerCase().includes(this.search.toLowerCase())
       );
       console.log(this.filteredproducts)
     }
   }
 
-  openCreateDialog() {
-    const dialogRef = this.dialog.open(DialogboxComponent, {
+  public openCreateDialog():void {
+    const dialogRef = this.dialog.open(CreateProductComponent, {
       width: '400px'
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -83,8 +81,8 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openEditDialog(product: ProductModel, index: number) {
-    const dialogRef = this.dialog.open(DialogboxComponent, {
+  public openEditDialog(product: ProductModel, index: number):void {
+    const dialogRef = this.dialog.open(CreateProductComponent, {
       width: '400px',
       data: { ...product }
     });
@@ -96,17 +94,20 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  deleteProduct(index: number) {
+  public deleteProduct(index: number) {
+    alert('Are you sure  you want to delete')
     this.service.deleteProduct(index);
-    this.loadProducts();
+    this.loadProducts();  
   }
 
-  filterCategory(category:string){
-    if(category==='All'){
+  public filterCategory(category:Category){
+    if(category.name==='All'){
       this.datasource.data=this.displayData;
+      console.log(this.datasource.data)
     }else{
-      this.datasource.data=this.displayData.filter(item=>item.category===category)
-      console.log(this.datasource.data=this.displayData.filter(item=>item.category===category))
+      this.datasource.data=this.displayData.filter(item=>item.category.name===category.name)
+      console.log('selected',category.name)
+      console.log(this.datasource.data=this.displayData.filter(item=>item.category.name===category.name))
     }
   }
 }

@@ -5,12 +5,15 @@ import { ProductDashboardComponent } from './components/products/product-dashboa
 import { authGuard } from './core/auth.guard';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
 import { CartComponent } from './components/cart/cart.component';
+import { HomeComponent } from './components/home/home.component';
+import { OrderhistoryComponent } from './components/order-history/order-history.component';
 
 export const routes: Routes = [
 { path:'signup',component:SignUpComponent },
 { path:'login',component:LoginComponent },
 { path:'products',component:ProductDashboardComponent,canActivate:[authGuard]},
 { path:'products/details/:name',component:ProductDetailsComponent,canActivate:[authGuard]},
-{ path:'cart',component:CartComponent,canActivate:[authGuard]}
-
+{ path:'cart',component:CartComponent,canActivate:[authGuard]},
+{ path:'home',component:HomeComponent,canActivate:[authGuard]},
+{ path:'history',component:OrderhistoryComponent,canActivate:[authGuard]},
 ];

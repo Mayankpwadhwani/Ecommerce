@@ -6,25 +6,30 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-
+import { Users } from '../../../core/interfaces/User';
 
 @Component({
-  selector: 'app-sign-up',
-  imports: [MatLabel, MatCardModule, FormsModule,
-    MatFormField, MatInputModule, MatButtonModule],
-  templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.scss'
+ selector: 'app-sign-up',
+ imports: [MatLabel, MatCardModule, FormsModule,
+   MatFormField, MatInputModule, MatButtonModule],
+ templateUrl: './sign-up.component.html',
+ styleUrl: './sign-up.component.scss'
 })
 export class SignUpComponent {
+ constructor(private snack: MatSnackBar, private router: Router) { }
 
-  constructor(private snack: MatSnackBar, private router: Router) { }
-  //functions
-  onSubmit(form: NgForm) {
-    if (form.valid) {
-      const userData = form.value;
-      localStorage.setItem(userData.username, JSON.stringify(userData));
-      this.snack.open("Successfully registered", "close")
-      this.router.navigate(["/login"])
-    }
-  }
+ public onSubmit(form: NgForm) {
+   if (form.valid) {
+     const userData = form.value;
+     let users = JSON.parse(localStorage.getItem('users') || '[]');
+     if (users.some((u:Users) => u.username === userData.username)) {
+       this.snack.open("Username already exists!", "close", { duration: 2000 });
+       return;
+     }
+     users.push(userData);
+     localStorage.setItem('users', JSON.stringify(users));
+     this.snack.open("Successfully registered", "close", { duration: 2000 });
+     this.router.navigate(["/login"]);
+   }
+ }
 }

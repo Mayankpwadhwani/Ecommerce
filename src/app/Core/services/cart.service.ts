@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
-import { ProductModel } from '../interfaces/product';
 import { BehaviorSubject } from 'rxjs';
-import { Users } from '../interfaces/User';
+import { ProductModel } from '../interfaces/product';
+import { Orders } from '../interfaces/orders';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class CartService {
-   storageKey = 'carts'; 
-   cartItem: ProductModel[] = [];
-   cartSubject = new BehaviorSubject<ProductModel[]>([]);
-   cart$ = this.cartSubject.asObservable();
-   currentUser: string | null = null;
-  
+  storageKey = 'carts';
+  orderKey = 'orders';
+  cartItem: ProductModel[] = [];
+  cartSubject = new BehaviorSubject<ProductModel[]>([]);
+  cart$ = this.cartSubject.asObservable();
+  currentUser: string | null = null;
+
   constructor() {
     this.setUser(localStorage.getItem('currentUser'));
   }
@@ -27,15 +29,11 @@ export class CartService {
     }
     this.cartSubject.next([...this.cartItem]);
   }
-  
+
   public addToCart(product: ProductModel) {
     this.cartItem.push(product);
     this.saveCart();
     this.cartSubject.next([...this.cartItem]);
-  }
-
-  public getCartItem(): ProductModel[] {
-    return this.cartItem;
   }
 
   public removeCartItems(index: number) {
@@ -50,21 +48,41 @@ export class CartService {
     this.cartSubject.next([]);
   }
 
-   getAllCarts(): Record<string, ProductModel[]> {
+  public placeOrder(): void {
+    if (!this.currentUser || this.cartItem.length === 0) return;
+    const newOrder: Orders = {
+      orderId: Date.now().toString(36),
+      productdetail: [...this.cartItem],
+      total: this.cartItem.reduce((sum, p) => sum + (p.price * p.quantity), 0),
+      date: new Date().toISOString()
+    };
+    const orders = this.getOrders();
+    orders[this.currentUser] = orders[this.currentUser] || [];
+    orders[this.currentUser].push(newOrder);
+    localStorage.setItem(this.orderKey, JSON.stringify(orders));
+    this.clearCart();
+  }
+
+  public getOrders(): Record<string, Orders[]> {
+    const data = localStorage.getItem(this.orderKey);
+    return data ? JSON.parse(data) : {};
+  }
+
+  public getUserOrders(username: string): Orders[] {
+    const orders = this.getOrders();
+    return orders[username] || [];
+  }
+
+  public getAllCarts(): Record<string, ProductModel[]> {
     const data = localStorage.getItem(this.storageKey);
     return data ? JSON.parse(data) : {};
   }
 
-   saveAllCarts(carts: Record<string, ProductModel[]>) {
-    localStorage.setItem(this.storageKey, JSON.stringify(carts));
-  }
-
-   saveCart() {
+  public saveCart() {
     if (this.currentUser) {
       const carts = this.getAllCarts();
       carts[this.currentUser] = this.cartItem;
-      this.saveAllCarts(carts);
+      localStorage.setItem(this.storageKey, JSON.stringify(carts));
     }
   }
 }
- 

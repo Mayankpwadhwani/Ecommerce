@@ -2,16 +2,17 @@ import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Users } from '../../../core/interfaces/User';
+import { FormControl } from '@angular/forms';
 
 @Component({
  selector: 'app-sign-up',
  imports: [MatLabel, MatCardModule, FormsModule,
-   MatFormField, MatInputModule, MatButtonModule],
+   MatFormFieldModule, MatInputModule, MatButtonModule],
  templateUrl: './sign-up.component.html',
  styleUrl: './sign-up.component.scss'
 })

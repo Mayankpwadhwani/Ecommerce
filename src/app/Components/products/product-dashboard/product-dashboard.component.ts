@@ -57,7 +57,7 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
     this.datasource.data = this.service.getProducts();
   }
 
-   public onSearchProducts():void{
+  public onSearchProducts():void{
     if (!this.search.trim()) {
       this.datasource.data = this.displayData;
     }

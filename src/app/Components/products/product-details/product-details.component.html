@@ -11,6 +11,21 @@
         <p>Discount:{{item.discount}}</p>
         <p>In Stock:{{item.instock}}</p>
         <button mat-button (click)=" addToCart(item)">Add to Cart</button>
+        <button mat-button>Add Review</button>
     </mat-card-content>
+    
 </mat-card>
 }
+
+<mat-accordion>
+ <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Customer Reviews </mat-panel-title>
+      <mat-panel-description>
+        click to see reviews
+        
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>this product is very good</p>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -24,6 +24,7 @@ export class LoginComponent {
    const user = users.find((u:Users) => u.username === username && u.password === password);
    if (user) {
      localStorage.setItem('token', 'dummy_token');
+     localStorage.setItem('currentUser',user.username)
      this.snack.open("Login Successful", "close", { duration: 2000 });
      this.router.navigate(['/products']);
    } else {

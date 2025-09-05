@@ -1,1 +1,21 @@
-<p>orderhistory works!</p>
+<h2>previous orders</h2>
+@if (orders.length === 0) {
+<p>No orders found.</p>
+} @else {
+@for (order of orders; track order.orderId) {
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Order #{{ order.orderId }}</mat-card-title>
+        <mat-card-subtitle>{{ order.date | date:'short' }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        @for (item of order.productdetail; track $index) {
+        <div>
+            {{ item.name }} — {{ item.quantity }} × ₹{{ item.price }}
+        </div>
+        }
+        <strong>Total: ₹{{ order.total }}</strong>
+    </mat-card-content>
+</mat-card>
+}
+}

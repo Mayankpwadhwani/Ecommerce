@@ -26,7 +26,8 @@ export class CreateProductComponent implements OnInit{
     instock: 0,
     quantity: 1,
     imageUrl: '',
-    imageUrl1:''
+    imageUrl1:'',
+    reviews:[]
   };
     categories: string[] = []
   

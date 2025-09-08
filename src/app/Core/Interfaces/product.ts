@@ -1,4 +1,5 @@
 import { Category } from "./category"
+import { Review } from "./review"
 
 export interface ProductModel {
     id:number,
@@ -9,6 +10,7 @@ export interface ProductModel {
     instock: number,
     imageUrl: string,
     imageUrl1:string,
-    quantity: number
+    quantity: number,
+    reviews:Review[]
 
 }

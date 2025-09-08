@@ -81,18 +81,18 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public openEditDialog(product: ProductModel, index: number):void {
-    const dialogRef = this.dialog.open(CreateProductComponent, {
-      width: '400px',
-      data: { ...product }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.service.updateProduct(index, result);
-        this.loadProducts();
-      }
-    });
-  }
+ public openEditDialog(product: ProductModel): void {
+ const dialogRef = this.dialog.open(CreateProductComponent, {
+   width: '400px',
+   data: { ...product }
+ });
+ dialogRef.afterClosed().subscribe(result => {
+   if (result) {
+     this.service.updateProduct(result);
+     this.loadProducts();
+   }
+ });
+}
 
   public deleteProduct(index: number) {
     alert('Are you sure  you want to delete')

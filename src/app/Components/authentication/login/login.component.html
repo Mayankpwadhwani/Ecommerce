@@ -2,17 +2,35 @@
     <mat-card class="card">
         <mat-card-title class="login">Login Form</mat-card-title><br>
         <mat-card-content>
-            <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
-                <mat-form-field>
-                    <mat-label> Username</mat-label>
-                    <input matInput type="text" required minlength="5" name="username" text ngModel>
-                </mat-form-field><br>
-                <mat-form-field>
-                    <mat-label> Password</mat-label>
-                    <input matInput type="password" required minlength="5" name="password" text ngModel #password>
-                </mat-form-field><br>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
+                <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" />
+                @if (loginForm.get('email')?.hasError('required')) {
+                <mat-error>Email is required</mat-error>
+                }
+                @if (loginForm.get('email')?.hasError('email')) {
+                <mat-error>Enter a valid email</mat-error>
+                }
+                @if (loginForm.get('email')?.hasError('gmail')) {
+                <mat-error>Email must end with &#64;gmail.com</mat-error>
+                }
+            </mat-form-field><br>
+                <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" />
+                @if (loginForm.get('password')?.hasError('required')) {
+                <mat-error>Password is required</mat-error>
+                }
+                @if (loginForm.get('password')?.hasError('minlength')) {
+                <mat-error>Minimum 5 characters required</mat-error>
+                }
+                @if (loginForm.get('password')?.hasError('invalidPassword')) {
+                <mat-error>Password must have max 10 chars & one special character</mat-error>
+                }
+            </mat-form-field><br>
                 <button mat-button class="button" color="primary" type="submit"
-                    [disabled]="!myForm.valid">submit</button>
+                    [disabled]="!loginForm.valid">submit</button>
                 <a mat-button routerLink="/signup">Register Here</a>
             </form>
         </mat-card-content>

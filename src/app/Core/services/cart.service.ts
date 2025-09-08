@@ -19,8 +19,8 @@ export class CartService {
     this.setUser(localStorage.getItem('currentUser'));
   }
 
-  public setUser(username: string | null) {
-    this.currentUser = username;
+  public setUser(email: string | null) {
+    this.currentUser = email;
     if (this.currentUser) {
       const carts = this.getAllCarts();
       this.cartItem = carts[this.currentUser] || [];
@@ -68,9 +68,9 @@ export class CartService {
     return data ? JSON.parse(data) : {};
   }
 
-  public getUserOrders(username: string): Orders[] {
+  public getUserOrders(email: string): Orders[] {
     const orders = this.getOrders();
-    return orders[username] || [];
+    return orders[email] || [];
   }
 
   public getAllCarts(): Record<string, ProductModel[]> {

@@ -19,6 +19,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 export class ProductDetailsComponent implements OnInit {
   displayData: ProductModel[] = []
   filterDetails: ProductModel[] = []
+  details:ProductModel[]=[]
   readonly panelOpenState = signal(false);
 
   constructor(private service: ProductsService, private route: ActivatedRoute, private cartservice: CartService,private snack:MatSnackBar) { }
@@ -29,9 +30,17 @@ export class ProductDetailsComponent implements OnInit {
     this.filterDetails = this.displayData.filter(d => d.name === name);
   }
 
+  public finalPrice(item:ProductModel){
+    return (item.price - ((item.discount * item.price)/100))
+  }
+
   public addToCart(item: ProductModel):void{
     this.cartservice.addToCart(item);
     this.snack.open('product added','close',{duration:2000})
+  }
+
+  public addReview():void {
+
   }
 }
 

@@ -14,17 +14,19 @@ import { CreateProductComponent } from '../../create-product/create-product.comp
 import { Category } from '../../../core/interfaces/category';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+
 
 @Component({
   selector: 'app-product-dashboard',
-  imports: [CommonModule, MatTableModule, FormsModule,MatFormFieldModule,
+  imports: [CommonModule, MatTableModule, FormsModule,MatFormFieldModule,MatSortModule,
     MatPaginatorModule, MatButtonModule, RouterModule, MatIconModule, MatSelectModule,MatInputModule],
   templateUrl: './product-dashboard.component.html',
   styleUrl: './product-dashboard.component.scss'
 })
 export class ProductDashboardComponent implements OnInit, AfterViewInit {
   search: string = ""
-  ProductColumns: string[] = ['imageUrl', 'name', 'category', 'price', 'discount', 'action',];
+  productColumns: string[] = ['imageUrl', 'name', 'category', 'price', 'discount', 'action',];
   datasource = new MatTableDataSource<ProductModel>();
   displayData: ProductModel[] = []
   filteredproducts: ProductModel[] = []
@@ -40,8 +42,12 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
     ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!:MatSort; 
 
-  constructor(private service: ProductsService, private dialog: MatDialog) { }
+
+  constructor(private service: ProductsService, private dialog: MatDialog) { 
+    
+  }
 
   ngOnInit() {
     this.displayData = this.service.getProducts();
@@ -51,6 +57,7 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.datasource.paginator = this.paginator
+    this.datasource.sort=this.sort
   }
 
   public loadProducts():void {
@@ -111,3 +118,5 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
     }
   }
 }
+
+

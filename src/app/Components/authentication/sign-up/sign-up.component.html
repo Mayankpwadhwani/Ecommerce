@@ -1,29 +1,60 @@
 <div class="position">
     <mat-card class="form">
         <mat-card-title class="title">Register Here</mat-card-title>
-        <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
-            <mat-form-field>
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="outline">
                 <mat-label>Name</mat-label>
-                <input matInput required minlength="5" type="text" ngModel name="name">
-            </mat-form-field><br>
-
-            <mat-form-field>
+                <input matInput type="text" formControlName="name" />
+                @if (signupForm.get('name')?.hasError('required')) {
+                <mat-error>Name is required</mat-error>
+                }
+                @if (signupForm.get('name')?.hasError('minlength')) {
+                <mat-error>Minimum 5 characters required</mat-error>
+                }
+            </mat-form-field>
+            <br />
+            <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
-                <input matInput required minlength="10" ngModel type="email" name="email">
-            </mat-form-field><br>
-
-            <mat-form-field>
+                <input matInput type="email" formControlName="email" />
+                @if (signupForm.get('email')?.hasError('required')) {
+                <mat-error>Email is required</mat-error>
+                }
+                @if (signupForm.get('email')?.hasError('email')) {
+                <mat-error>Enter a valid email</mat-error>
+                }
+                @if (signupForm.get('email')?.hasError('gmail')) {
+                <mat-error>Email must end with &#64;gmail.com</mat-error>
+                }
+            </mat-form-field>
+            <br />
+            <mat-form-field appearance="outline">
                 <mat-label>Username</mat-label>
-                <input matInput required minlength="5" ngModel type="text" name="username">
-                <mat-error ></mat-error>
-            </mat-form-field><br>
-
-            <mat-form-field>
+                <input matInput type="text" formControlName="username" />
+                @if (signupForm.get('username')?.hasError('required')) {
+                <mat-error>Username is required</mat-error>
+                }
+                @if (signupForm.get('username')?.hasError('minlength')) {
+                <mat-error>Minimum 5 characters required</mat-error>
+                }
+            </mat-form-field>
+            <br />
+            <mat-form-field appearance="outline">
                 <mat-label>Password</mat-label>
-                <input matInput required minlength="5" ngModel type="password" name="password">
-            </mat-form-field><br>
-
-            <button mat-button class="button" [disabled]="!myForm.valid" color="primary">Submit</button>
+                <input matInput type="password" formControlName="password" />
+                @if (signupForm.get('password')?.hasError('required')) {
+                <mat-error>Password is required</mat-error>
+                }
+                @if (signupForm.get('password')?.hasError('minlength')) {
+                <mat-error>Minimum 5 characters required</mat-error>
+                }
+                @if (signupForm.get('password')?.hasError('invalidPassword')) {
+                <mat-error>Password must have max 10 chars & one special character</mat-error>
+                }
+            </mat-form-field>
+            <br />
+            <button mat-raised-button class="button" color="primary" [disabled]="!signupForm.valid">
+                Submit
+            </button>
         </form>
     </mat-card>
 </div>

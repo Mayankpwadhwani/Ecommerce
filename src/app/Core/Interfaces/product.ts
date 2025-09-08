@@ -6,6 +6,7 @@ export interface ProductModel {
     name: string,
     price: number,
     discount: number,
+    finalprice:number,
     category:Category,
     instock: number,
     imageUrl: string,

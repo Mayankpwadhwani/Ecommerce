@@ -1,12 +1,9 @@
 import { Users } from "./User"
 
 export interface Review{
-
-    id:string,
+    id:number,
     user:Users,
     comment:string,
     createdAt:Date
-
-    
 }
 

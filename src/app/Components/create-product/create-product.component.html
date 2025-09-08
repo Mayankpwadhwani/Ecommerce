@@ -1,13 +1,19 @@
 <h2 mat-dialog-title>Create Product</h2>
 <mat-dialog-content>
-    <form #productform="ngForm">
+    <form [formGroup]="myForm" (ngSubmit)="onSave()">
     <mat-form-field appearance="fill" class="w-full">
         <mat-label>Name</mat-label>
-        <input matInput [(ngModel)]="product.name" name="full"  required minlength="4" >
+        <input matInput  formControlName="name" >
+        @if(myForm.get('name')?.hasError('required')){
+            <mat-error>Name is required</mat-error>
+        }
+        @if(myForm.get('name')?.hasError('minlength')){
+            <mat-error>min 4 letter Required</mat-error>
+        }
     </mat-form-field>
    <mat-form-field>
   <mat-label>Select Category</mat-label>
-  <mat-select [(ngModel)]="product.category" name="category">
+  <mat-select  formControlName="category">
     @for (category of categories; track category) {
       <mat-option [value]="category">{{category}}</mat-option>
     }
@@ -15,27 +21,33 @@
 </mat-form-field>
     <mat-form-field appearance="fill" class="w-full">
         <mat-label>Price</mat-label>
-        <input matInput type="number" [(ngModel)]="product.price" name="firstprice" required minlength="3">
+        <input matInput formControlName="price" >
+        @if(myForm.get('price')?.hasError('required')){
+            <mat-error>price is required</mat-error>
+        }
+        @if(myForm.get('price')?.hasError('minlength')){
+            <mat-error>min above 100</mat-error>
+        }
     </mat-form-field>
     <mat-form-field appearance="fill" class="w-full">
         <mat-label>Discount (%)</mat-label>
-        <input matInput type="number" [(ngModel)]="product.discount" name="give" required minlength="2" >
+        <input matInput formControlName="discount" >
     </mat-form-field>
     <mat-form-field appearance="fill" class="w-full">
         <mat-label>In Stock</mat-label>
-        <input matInput type="number" [(ngModel)]="product.instock" name="stock" required minlength="1" >
+        <input matInput formControlName="inStock" >
     </mat-form-field>
     <mat-form-field appearance="fill" class="w-full">
         <mat-label>Image  1 URL</mat-label>
-        <input matInput [(ngModel)]="product.imageUrl" name="url" >
+        <input matInput  formControlName="imageUrl">
     </mat-form-field>
     <mat-form-field appearance="fill" class="w-full">
         <mat-label>Image  2 URL</mat-label>
-        <input matInput [(ngModel)]="product.imageUrl1" name="iamgeurl1" >
+        <input matInput  formContorlName="imageUrl1">
     </mat-form-field>
     </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button (click)="cancel()">Cancel</button>
-    <button mat-raised-button color="primary"  [disabled]="!productform.valid" (click)="save()">Save</button>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="!myForm.valid" (click)="onSave()">Save</button>
 </mat-dialog-actions>

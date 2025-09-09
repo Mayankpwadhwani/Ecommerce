@@ -39,6 +39,22 @@ export class ProductDetailsComponent implements OnInit {
     this.snack.open('product added','close',{duration:2000})
   }
 
+  public isInCart(product:ProductModel){
+    return this.cartservice.isInCart(product);
+  }
+
+  public increment(item: ProductModel) {
+    if (item.quantity < item.instock) {
+      item.quantity++;
+    }
+  }
+
+  public decrement(item: ProductModel) {
+    if (item.quantity > 0) {
+      item.quantity--;
+    }
+  }
+
   public addReview():void {
 
   }

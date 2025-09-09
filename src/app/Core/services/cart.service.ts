@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ProductModel } from '../interfaces/product';
 import { Orders } from '../interfaces/orders';
+import { ProductsService } from './products.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class CartService {
   cart$ = this.cartSubject.asObservable();
   currentUser: string | null = null;
 
-  constructor() {
+  constructor(private service: ProductsService) {
     this.setUser(localStorage.getItem('currentUser'));
   }
 
@@ -48,14 +49,26 @@ export class CartService {
     this.cartSubject.next([]);
   }
 
+  public finalPrice(item: ProductModel) {
+    return (item.price - ((item.discount * item.price) / 100))
+  }
+
   public placeOrder(): void {
     if (!this.currentUser || this.cartItem.length === 0) return;
+    const products = this.service.getProducts();
+    this.cartItem.forEach(cartProduct => {
+      const index = products.findIndex(p => p.id === cartProduct.id);
+      if (index !== -1) {
+        const newStock = products[index].instock - cartProduct.quantity;
+        products[index].instock = newStock >= 0 ? newStock : 0;
+        this.service.updateProduct(products[index]);
+      }
+    })
     const newOrder: Orders = {
       orderId: Date.now().toString(36),
       productdetail: [...this.cartItem],
-      total: this.cartItem.reduce((sum, p) => sum + (p.price * p.quantity), 0),
       date: new Date().toISOString()
-    };
+    }; 
     const orders = this.getOrders();
     orders[this.currentUser] = orders[this.currentUser] || [];
     orders[this.currentUser].push(newOrder);
@@ -84,5 +97,8 @@ export class CartService {
       carts[this.currentUser] = this.cartItem;
       localStorage.setItem(this.storageKey, JSON.stringify(carts));
     }
+  }
+  public isInCart(product: ProductModel): boolean {
+    return this.cartItem.some(p => p.id === product.id);
   }
 }

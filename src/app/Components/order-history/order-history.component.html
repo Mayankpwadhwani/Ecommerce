@@ -11,10 +11,11 @@
     <mat-card-content>
         @for (item of order.productdetail; track $index) {
         <div>
-            {{ item.name }} — {{ item.quantity }} × ₹{{ item.price }}
+            {{ item.name }} — {{ item.quantity }} × ₹{{finalPrice(item)}}
         </div>
-        }
-        <strong>Total: ₹{{ order.total }}</strong>
+        
+        <strong>Total: ₹{{totalPrice(item)}}</strong>
+    }
     </mat-card-content>
 </mat-card>
 }

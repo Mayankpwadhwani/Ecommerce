@@ -4,9 +4,8 @@
         <mat-card-title>Name:{{ item.name}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <img src="{{item.imageUrl}}">
         <p>Category:{{item.category.name}}</p>
-        <p>Price:{{item.price}}</p>
+        <p>Price:{{finalPrice(item)}}</p>
         <p>Discount:{{item.discount}}</p>
         <button (click)="remove(i)" mat-button>Remove</button>
         <button (click)="decrement(item)" mat-button>-</button>

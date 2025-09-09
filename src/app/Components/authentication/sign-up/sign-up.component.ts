@@ -55,7 +55,7 @@ export class SignUpComponent implements OnInit {
     }
     return null;
   }
-  
+
   public passwordValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value as string;
     if (value) {

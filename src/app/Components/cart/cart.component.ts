@@ -4,6 +4,7 @@ import { CartService } from '../../core/services/cart.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProductsService } from '../../core/services/products.service';
 
 @Component({
   selector: 'app-cart',
@@ -14,13 +15,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class CartComponent implements OnInit {
   cartItem: ProductModel[] = [];
 
-  constructor(private cartservice: CartService, private snack: MatSnackBar) { }
+  constructor(private cartservice: CartService, private snack: MatSnackBar,private service: ProductsService) { }
 
   ngOnInit() {
     this.cartservice.cart$.subscribe(item => {
       this.cartItem = item;
-      console.log(item);
     })
+  }
+
+  public finalPrice(item: ProductModel) {
+    return (item.price - ((item.discount * item.price) / 100))
   }
 
   public remove(index: number) {

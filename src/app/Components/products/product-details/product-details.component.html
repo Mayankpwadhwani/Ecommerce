@@ -4,16 +4,27 @@
         <mat-card-title>Name:{{ item.name}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <img src="{{item.imageUrl}}">
-        <img src="{{item.imageUrl1}}">
+        <img class="image" src={{item.images[0]}} >
+        <div >
+        @for(img of (item.images && item.images.length>1 ? item.images.slice(1) : []); track img){
+          <img src={{img}}>
+        }
+        </div>
         <p>Category:{{item.category.name}}</p>
-        <p>Final Price:{{finalPrice(item)}}</p>
-        <p>Discount:{{item.discount}}</p>
+        <p>Final Price:<s>  ₹{{item.price}}</s>  ₹{{finalPrice(item)}}</p>
+        <p>Discount:{{item.discount}}%</p>
         <p>In Stock:{{item.instock}}</p>
-        <button mat-button (click)=" addToCart(item)">Add to Cart</button>
+        @if(!isInCart(item)){
+        <button mat-button (click)="addToCart(item)">Add to Cart</button>
+        }
+        @else(){
+          <button mat-button (click)="decrement(item)">-</button>
+          <p>{{item.quantity}}</p>
+          <button mat-button (click)="increment(item)">+</button>
+        }
         <button mat-button (click)="addReview()">Add Review</button>
     </mat-card-content>
-</mat-card>
+</mat-card> 
 }
 <mat-accordion>
  <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">

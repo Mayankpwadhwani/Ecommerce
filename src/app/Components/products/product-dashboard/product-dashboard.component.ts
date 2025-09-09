@@ -16,11 +16,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 
-
 @Component({
   selector: 'app-product-dashboard',
-  imports: [CommonModule, MatTableModule, FormsModule,MatFormFieldModule,MatSortModule,
-    MatPaginatorModule, MatButtonModule, RouterModule, MatIconModule, MatSelectModule,MatInputModule],
+  imports: [CommonModule, MatTableModule, FormsModule, MatFormFieldModule, MatSortModule,
+    MatPaginatorModule, MatButtonModule, RouterModule, MatIconModule, MatSelectModule, MatInputModule],
   templateUrl: './product-dashboard.component.html',
   styleUrl: './product-dashboard.component.scss'
 })
@@ -30,23 +29,21 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
   datasource = new MatTableDataSource<ProductModel>();
   displayData: ProductModel[] = []
   filteredproducts: ProductModel[] = []
-  
-  categories:Category[] = [
-      {id:0,  name: 'All'},
-      {id:1,  name: 'Painkiller'},
-      {id:2,  name: 'Injection'},
-      {id:3,  name: 'Anticancer'},
-      {id:4,  name: 'Capsules'},
-      {id:5,  name: 'NervePain'},
-      {id:6,  name: 'Digestion'},
-    ];
+
+  categories: Category[] = [
+    { id: 0, name: 'All' },
+    { id: 1, name: 'Painkiller' },
+    { id: 2, name: 'Injection' },
+    { id: 3, name: 'Anticancer' },
+    { id: 4, name: 'Capsules' },
+    { id: 5, name: 'NervePain' },
+    { id: 6, name: 'Digestion' },
+  ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!:MatSort; 
+  @ViewChild(MatSort) sort!: MatSort;
 
-
-  constructor(private service: ProductsService, private dialog: MatDialog) { 
-    
+  constructor(private service: ProductsService, private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -57,14 +54,14 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.datasource.paginator = this.paginator
-    this.datasource.sort=this.sort
+    this.datasource.sort = this.sort
   }
 
-  public loadProducts():void {
+  public loadProducts(): void {
     this.datasource.data = this.service.getProducts();
   }
 
-  public onSearchProducts():void{
+  public onSearchProducts(): void {
     if (!this.search.trim()) {
       this.datasource.data = this.displayData;
     }
@@ -76,7 +73,7 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public openCreateDialog():void {
+  public openCreateDialog(): void {
     const dialogRef = this.dialog.open(CreateProductComponent, {
       width: '400px'
     });
@@ -88,33 +85,35 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
- public openEditDialog(product: ProductModel): void {
- const dialogRef = this.dialog.open(CreateProductComponent, {
-   width: '400px',
-   data: { ...product }
- });
- dialogRef.afterClosed().subscribe(result => {
-   if (result) {
-     this.service.updateProduct(result);
-     this.loadProducts();
-   }
- });
-}
-
-  public deleteProduct(index: number) {
-    alert('Are you sure  you want to delete')
-    this.service.deleteProduct(index);
-    this.loadProducts();  
+  public openEditDialog(product: ProductModel): void {
+    const dialogRef = this.dialog.open(CreateProductComponent, {
+      width: '400px',
+      data: { ...product }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.service.updateProduct(result);
+        this.loadProducts();
+      }
+    });
   }
 
-  public filterCategory(category:Category){
-    if(category.name==='All'){
-      this.datasource.data=this.displayData;
+  public deleteProduct(id: number) {
+    if (confirm('are you sure')) {
+      this.displayData = this.displayData.filter(p => p.id !== id)
+      this.service.deleteProduct(id);
+      this.loadProducts();
+    }
+  }
+
+  public filterCategory(category: Category) {
+    if (category.name === 'All') {
+      this.datasource.data = this.displayData;
       console.log(this.datasource.data)
-    }else{
-      this.datasource.data=this.displayData.filter(item=>item.category.name===category.name)
-      console.log('selected',category.name)
-      console.log(this.datasource.data=this.displayData.filter(item=>item.category.name===category.name))
+    } else {
+      this.datasource.data = this.displayData.filter(item => item.category.name === category.name)
+      console.log('selected', category.name)
+      console.log(this.datasource.data = this.displayData.filter(item => item.category.name === category.name))
     }
   }
 }

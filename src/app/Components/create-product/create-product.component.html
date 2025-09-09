@@ -1,50 +1,52 @@
 <h2 mat-dialog-title>Create Product</h2>
 <mat-dialog-content>
     <form [formGroup]="myForm" (ngSubmit)="onSave()">
-    <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Name</mat-label>
-        <input matInput  formControlName="name" >
-        @if(myForm.get('name')?.hasError('required')){
+        <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+            @if(myForm.get('name')?.hasError('required')){
             <mat-error>Name is required</mat-error>
-        }
-        @if(myForm.get('name')?.hasError('minlength')){
+            }
+            @if(myForm.get('name')?.hasError('minlength')){
             <mat-error>min 4 letter Required</mat-error>
-        }
-    </mat-form-field>
-   <mat-form-field>
-  <mat-label>Select Category</mat-label>
-  <mat-select  formControlName="category">
-    @for (category of categories; track category) {
-      <mat-option [value]="category">{{category}}</mat-option>
-    }
-  </mat-select>
-</mat-form-field>
-    <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Price</mat-label>
-        <input matInput formControlName="price" >
-        @if(myForm.get('price')?.hasError('required')){
+            }
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Select Category</mat-label>
+            <mat-select formControlName="category">
+                @for (category of categories; track category) {
+                <mat-option [value]="category">{{category}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Price</mat-label>
+            <input matInput formControlName="price">
+            @if(myForm.get('price')?.hasError('required')){
             <mat-error>price is required</mat-error>
-        }
-        @if(myForm.get('price')?.hasError('minlength')){
+            }
+            @if(myForm.get('price')?.hasError('minlength')){
             <mat-error>min above 100</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Discount (%)</mat-label>
+            <input matInput formControlName="discount">
+        </mat-form-field><br>
+        <mat-form-field appearance="fill" class="w-full">
+            <mat-label>In Stock</mat-label>
+            <input matInput formControlName="instock">
+        </mat-form-field><br>
+
+        <mat-label>Upload images</mat-label>
+        <input type="file" multiple (change)="onFilesSelect($event)" formControlName="images">
+
+        @for(img of imagePreviews; track img){
+        <img [src]="img">
         }
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Discount (%)</mat-label>
-        <input matInput formControlName="discount" >
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="w-full">
-        <mat-label>In Stock</mat-label>
-        <input matInput formControlName="inStock" >
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Image  1 URL</mat-label>
-        <input matInput  formControlName="imageUrl">
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Image  2 URL</mat-label>
-        <input matInput  formContorlName="imageUrl1">
-    </mat-form-field>
+        @if(myForm.get('images')?.hasError('required')){
+        <mat-error>Image is required</mat-error>
+        }
     </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

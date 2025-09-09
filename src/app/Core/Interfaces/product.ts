@@ -9,8 +9,7 @@ export interface ProductModel {
     finalprice:number,
     category:Category,
     instock: number,
-    imageUrl: string,
-    imageUrl1:string,
+    images:string[],
     quantity: number,
     reviews:Review[]
 

@@ -9,7 +9,7 @@
                 <mat-error>Name is required</mat-error>
                 }
                 @if (signupForm.get('name')?.hasError('minlength')) {
-                <mat-error>Minimum 5 characters required</mat-error>
+                <mat-error>Min 5 char required</mat-error>
                 }
             </mat-form-field>
             <br />
@@ -20,10 +20,10 @@
                 <mat-error>Email is required</mat-error>
                 }
                 @if (signupForm.get('email')?.hasError('email')) {
-                <mat-error>Enter a valid email</mat-error>
+                <mat-error>enter a valid email</mat-error>
                 }
                 @if (signupForm.get('email')?.hasError('gmail')) {
-                <mat-error>Email must end with &#64;gmail.com</mat-error>
+                <mat-error>email must end with &#64;gmail.com</mat-error>
                 }
             </mat-form-field>
             <br />
@@ -34,7 +34,7 @@
                 <mat-error>Username is required</mat-error>
                 }
                 @if (signupForm.get('username')?.hasError('minlength')) {
-                <mat-error>Minimum 5 characters required</mat-error>
+                <mat-error>Min 5 char required</mat-error>
                 }
             </mat-form-field>
             <br />
@@ -45,10 +45,10 @@
                 <mat-error>Password is required</mat-error>
                 }
                 @if (signupForm.get('password')?.hasError('minlength')) {
-                <mat-error>Minimum 5 characters required</mat-error>
+                <mat-error>Min 5 char required</mat-error>
                 }
                 @if (signupForm.get('password')?.hasError('invalidPassword')) {
-                <mat-error>Password must have max 10 chars & one special character</mat-error>
+                <mat-error>password must have max 10 chars & one special character</mat-error>
                 }
             </mat-form-field>
             <br />

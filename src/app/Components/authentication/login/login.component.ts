@@ -21,7 +21,7 @@ export class LoginComponent {
     password: FormControl<string | null>;
   }>;
 
-  constructor(private snack: MatSnackBar, private router: Router, private fb: FormBuilder) {
+  constructor(private snack: MatSnackBar, private router: Router, private fb: FormBuilder){
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.minLength(4)]),
       password: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]),

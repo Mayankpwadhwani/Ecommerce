@@ -43,8 +43,14 @@ export class CartComponent implements OnInit {
     }
   }
 
-  public submitOrder(): void {
-    this.cartservice.placeOrder();
-    this.snack.open("Order placed", "close", { duration: 2000 })
+  public submitOrder(){
+    const success=this.cartservice.placeOrder();
+    if(success){
+      this.snack.open("Order placed", "close", { duration: 2000 })
+    }
   }
-}
+
+  public isInCart(product:ProductModel){
+    return this.cartservice.isInCart(product);
+  }
+  }

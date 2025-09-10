@@ -1,8 +1,10 @@
 import { Users } from "./User"
+import { ProductModel } from "./product"
 
 export interface Review{
     id:number,
-    user:Users,
+    userId:Users,
+    productId:ProductModel
     comment:string,
     createdAt:Date
 }

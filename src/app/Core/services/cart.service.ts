@@ -18,7 +18,7 @@ export class CartService {
 
   constructor(private service: ProductsService) {
     this.setUser(localStorage.getItem('currentUser'));
-  }
+  }                         
 
   public setUser(email: string | null) {
     this.currentUser = email;
@@ -53,8 +53,12 @@ export class CartService {
     return (item.price - ((item.discount * item.price) / 100))
   }
 
-  public placeOrder(): void {
-    if (!this.currentUser || this.cartItem.length === 0) return;
+  public placeOrder(): boolean {
+    if (!this.currentUser || this.cartItem.length === 0) return false;
+    if(this.cartItem.some(item=>item.quantity<1)){
+      alert("quantity cannot be zero");
+      return false;
+    }
     const products = this.service.getProducts();
     this.cartItem.forEach(cartProduct => {
       const index = products.findIndex(p => p.id === cartProduct.id);
@@ -74,6 +78,7 @@ export class CartService {
     orders[this.currentUser].push(newOrder);
     localStorage.setItem(this.orderKey, JSON.stringify(orders));
     this.clearCart();
+    return true;
   }
 
   public getOrders(): Record<string, Orders[]> {

@@ -11,7 +11,11 @@
         <button (click)="decrement(item)" mat-button>-</button>
         <p>{{item.quantity}}</p>
         <button (click)="increment(item)" mat-button>+</button>
-        <button mat-button (click)="submitOrder()">submit</button>
+        @if(isInCart(item)){
+  <button mat-button (click)="submitOrder()">submit</button>
+ }
     </mat-card-content>
+  
 </mat-card>
 }
+ 

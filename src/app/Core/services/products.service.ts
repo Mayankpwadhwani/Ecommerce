@@ -20,7 +20,7 @@ export class ProductsService {
           price: 1000,
           discount: 10,
           finalprice: 0,
-          category: { id: 1, 'name': 'Painkiller'},
+          category: { id: 1, 'name': 'Painkiller' },
           instock: 5,
           images: [],
           quantity: 1,
@@ -133,8 +133,20 @@ export class ProductsService {
     const index = products.findIndex(p => p.id === updated.id);
     if (index !== -1) {
       products[index] = updated;
+      localStorage.setItem(this.storageKey, JSON.stringify(products));
     }
-    localStorage.setItem(this.storageKey, JSON.stringify(products));
+    const cartsData = localStorage.getItem('carts');
+    if (cartsData) {
+      const carts = JSON.parse(cartsData);
+      Object.keys(carts).forEach(userEmail => {
+        carts[userEmail] = carts[userEmail].map((cartProduct: ProductModel) =>
+          cartProduct.id === updated.id
+            ? { ...cartProduct, ...updated, quantity: cartProduct.quantity }
+            : cartProduct
+        );
+      });
+      localStorage.setItem('carts', JSON.stringify(carts));
+    }
   }
 
   public deleteProduct(id: number): void {

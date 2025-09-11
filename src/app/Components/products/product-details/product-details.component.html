@@ -1,39 +1,50 @@
-@for (item of filterDetails ; track item.name) {
+@for (item of filterDetails; track item.name) {
 <mat-card class="card">
-    <mat-card-header>
-        <mat-card-title>Name:{{ item.name}}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <img class="image" src={{item.images[0]}} >
-        <div >
-        @for(img of (item.images && item.images.length>1 ? item.images.slice(1) : []); track img){
-          <img src={{img}}>
-        }
-        </div>
-        <p>Category:{{item.category.name}}</p>
-        <p>Final Price:<s>  ₹{{item.price}}</s>  ₹{{finalPrice(item)}}</p>
-        <p>Discount:{{item.discount}}%</p>
-        <p>In Stock:{{item.instock}}</p>
-        @if(!isInCart(item)){
-        <button mat-button (click)="addToCart(item)">Add to Cart</button>
-        }
-        @else(){
-          <button mat-button (click)="decrement(item)">-</button>
-          <p>{{item.quantity}}</p>
-          <button mat-button (click)="increment(item)">+</button>
-        }
-        <button mat-button (click)="addReview()">Add Review</button>
-    </mat-card-content>
-</mat-card> 
-}
+  <mat-card-header>
+    <mat-card-title>Name: {{ item.name }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <img class="image" src="{{ item.images[0] }}" />
+    <div>
+      @for (img of (item.images && item.images.length > 1 ? item.images.slice(1) : []); track img) {
+      <img src="{{ img }}" />
+      }
+    </div>
+    <p>Category: {{ item.category.name }}</p>
+    <p>
+      Final Price:
+      <s> ₹{{ item.price }}</s> ₹{{ finalPrice(item) }}
+    </p>
+    <p>Discount: {{ item.discount }}%</p>
+    <p>In Stock: {{ item.instock }}</p>
+    @if (!isInCart(item)) {
+    <button mat-button (click)="addToCart(item)">Add to Cart</button>
+    } @else {
+    <button mat-button (click)="decrement(item)">-</button>
+    <p>{{ item.quantity }}</p>
+    <button mat-button (click)="increment(item)">+</button>
+    }
+  </mat-card-content>
+</mat-card>
 <mat-accordion>
- <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+  <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title> Customer Reviews </mat-panel-title>
-      <mat-panel-description>
-        click to see reviews
-      </mat-panel-description>
+      <mat-panel-description> Click to see reviews </mat-panel-description>
     </mat-expansion-panel-header>
-    <p>this product is very good</p>
+    @for (review of reviews; track review.id) {
+    <p>
+      <b>User {{ review.userId }}</b>: {{ review.comment }}
+      ({{ review.createdAt | date: 'short' }})
+      <button mat-button (click)="delete(review.id,review.productId)">X</button>
+    </p>
+    }
+    <mat-form-field class="full-width">
+      <mat-label>Write a review</mat-label>
+      <input matInput #reviewInput />
+    </mat-form-field><br>
+    <button mat-raised-button color="primary" (click)="addReview(item.id, reviewInput.value); reviewInput.value=''">
+      Submit Review</button>
   </mat-expansion-panel>
 </mat-accordion>
+}

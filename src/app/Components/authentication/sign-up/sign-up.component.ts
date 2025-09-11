@@ -67,23 +67,25 @@ export class SignUpComponent implements OnInit {
     return null;
   }
 
-  public onSubmit(): void {
-    if (this.signupForm.valid) {
-      const userData: Users = {
-        id: Date.now(),
-        ...(this.signupForm.getRawValue() as Omit<Users, 'id'>),
-      };
-      let users: Users[] = JSON.parse(localStorage.getItem('users') || '[]');
-      if (users.some((u: Users) => u.username === userData.username)) {
-        this.snack.open('Username already exists!', 'close', {
-          duration: 2000,
-        });
-        return;
-      }
-      users.push(userData);
-      localStorage.setItem('users', JSON.stringify(users));
-      this.snack.open('Successfully registered', 'close', { duration: 2000 });
-      this.router.navigate(['/login']);
-    }
-  }
+ public onSubmit(): void {
+ if (this.signupForm.valid) {
+   const rawData = this.signupForm.getRawValue() as Omit<Users, 'id'>;
+   let users: Users[] = JSON.parse(localStorage.getItem('users') || '[]');
+   if (users.some((u: Users) => u.username === rawData.username)) {
+     this.snack.open('Username already exists!', 'close', {
+       duration: 2000,
+     });
+     return;
+   }
+   const newId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
+   const userData: Users = {
+     id: newId,
+     ...rawData,
+   };
+   users.push(userData);
+   localStorage.setItem('users', JSON.stringify(users));
+   this.snack.open('Successfully registered', 'close', { duration: 2000 });
+   this.router.navigate(['/login']);
+ }
+}
 }

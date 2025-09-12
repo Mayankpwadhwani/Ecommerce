@@ -13,7 +13,6 @@ import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 
-
 @Component({
   selector: 'app-product-details',
   imports: [MatCardModule, MatButtonModule, MatExpansionModule, MatLabel, MatFormFieldModule, CommonModule, MatInputModule],
@@ -57,17 +56,18 @@ export class ProductDetailsComponent implements OnInit {
     return this.cartservice.isInCart(product);
   }
 
-  public increment(item: ProductModel){
-    if (item.quantity < item.instock) {
-      item.quantity++;
-    }
+   public increment(item: ProductModel) {
+    this.cartservice.incrementQuantity(item);
   }
 
-  public decrement(item: ProductModel){
-    if (item.quantity > 0) {
-      item.quantity--;
-    }
+  public decrement(item: ProductModel) {
+    this.cartservice.decrementQuantity(item);
   }
+
+  public getQuantity(product: ProductModel): number {
+ const cartItem = this.cartservice.isInCart(product);
+ return cartItem ? cartItem.quantity : 0;
+}
 
   public loadReview(productId: number): void {
     this.reviews = this.reviewservice.getReviewsByProduct(productId);

@@ -7,6 +7,7 @@ import { ProductDetailsComponent } from './components/products/product-details/p
 import { CartComponent } from './components/cart/cart.component';
 import { HomeComponent } from './components/home/home.component';
 import { OrderhistoryComponent } from './components/order-history/order-history.component';
+import { OrderPreviewComponent } from './components/order-preview/order-preview.component';
 
 export const routes: Routes = [
 { path:'signup',component:SignUpComponent },
@@ -16,4 +17,6 @@ export const routes: Routes = [
 { path:'cart',component:CartComponent,canActivate:[authGuard]},
 { path:'home',component:HomeComponent,canActivate:[authGuard]},
 { path:'history',component:OrderhistoryComponent,canActivate:[authGuard]},
+{ path:'orderpreview',component:OrderPreviewComponent,canActivate:[authGuard]},
+
 ];

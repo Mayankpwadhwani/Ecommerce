@@ -1,0 +1,41 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>OrderPreview</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    @for(item of cartItem; track item.id){
+    <p>
+      <strong>{{ item.name }}</strong> (x{{ item.quantity }}) -
+      ₹{{ item.price - (item.price * item.discount / 100) | number:'1.2-2' }}
+    </p>
+    }
+    <h3>Total: ₹{{ totalAmount | number:'1.2-2' }}</h3>
+    <form [formGroup]="orderForm" class="billing-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address" />
+        @if (orderForm.get('address')?.hasError('required')) {
+        <mat-error> Address is required </mat-error>
+        }
+        @if (orderForm.get('address')?.hasError('minlength')) {
+        <mat-error> Address must be at least 10 characters long </mat-error>
+        }
+      </mat-form-field><br>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="phoneNo" />
+        @if (orderForm.get('phoneNo')?.hasError('required')) {
+        <mat-error> Phone number is required </mat-error>
+        }
+        @if (orderForm.get('phoneNo')?.hasError('pattern')) {
+        <mat-error> Must be a valid 10-digit number </mat-error>
+        }
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button (click)="cancelPreview()">Cancel preview</button>
+    <button mat-raised-button color="primary" (click)="confirmOrder()" [disabled]="!orderForm.valid">Confirm
+      Order</button>
+  </mat-card-actions>
+</mat-card>

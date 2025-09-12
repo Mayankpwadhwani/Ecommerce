@@ -21,7 +21,7 @@
     <button mat-button (click)="addToCart(item)">Add to Cart</button>
     } @else {
     <button mat-button (click)="decrement(item)">-</button>
-    <p>{{ item.quantity }}</p>
+    <p>{{getQuantity(item)}}</p>
     <button mat-button (click)="increment(item)">+</button>
     }
   </mat-card-content>

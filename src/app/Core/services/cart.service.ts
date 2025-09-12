@@ -103,7 +103,24 @@ export class CartService {
       localStorage.setItem(this.storageKey, JSON.stringify(carts));
     }
   }
-  public isInCart(product: ProductModel): boolean {
-    return this.cartItem.some(p => p.id === product.id);
-  }
+public isInCart(product: ProductModel): ProductModel | null {
+ return this.cartItem.find(p => p.id === product.id) || null;
+}
+
+public incrementQuantity(product: ProductModel): void {
+ const item = this.cartItem.find(p => p.id === product.id);
+ if (item && item.quantity < item.instock) {
+   item.quantity++;
+   this.saveCart();
+   this.cartSubject.next([...this.cartItem]);
+ }
+}
+public decrementQuantity(product: ProductModel): void {
+ const item = this.cartItem.find(p => p.id === product.id);
+ if (item && item.quantity > 0) {
+   item.quantity--;
+   this.saveCart();
+   this.cartSubject.next([...this.cartItem]);
+ }
+}
 }

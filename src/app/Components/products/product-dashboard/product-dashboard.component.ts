@@ -39,7 +39,7 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
     { id: 5, name: 'NervePain' },
     { id: 6, name: 'Digestion' },
   ];
-
+  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -55,6 +55,7 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.datasource.paginator = this.paginator
     this.datasource.sort = this.sort
+    this.categories.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   public loadProducts(): void {
